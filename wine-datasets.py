@@ -8,39 +8,35 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 df = pd.read_csv('wine.csv')
 
 
+print(df.isnull().sum()/df.shape[0]*100)
+print(df.nunique())
 
+print(df.duplicated().sum())
 
+for i in df.select_dtypes(include="object").columns:
+    print(df[i].value_counts())
+    print("***"*10)
 
+print(df.describe(include="object").T)
 
-# print(df.isnull().sum()/df.shape[0]*100)
-# print(df.nunique())
+for i in df.select_dtypes(include="number").columns:
+    sns.boxplot(data=df , x=i)
+    plt.show()
 
-# print(df.duplicated().sum())
+for i in ['country', 'description', 'designation', 'province', 'region_1',      
+       'region_2', 'taster_name', 'taster_twitter_handle', 'title', 'variety',
+       'winery']:
+    sns.scatterplot(data=df, x=i, y='price')
+    plt.show()
 
-# for i in df.select_dtypes(include="object").columns:
-#     print(df[i].value_counts())
-#     print("***"*10)
+print(df.select_dtypes(include= "object").columns)
+s = df.select_dtypes(include="number").corr()
+print(s)
+plt.figure(figsize=(15,15))
+sns.heatmap(s, annot=True)
 
-# print(df.describe(include="object").T)
-
-# for i in df.select_dtypes(include="number").columns:
-#     sns.boxplot(data=df , x=i)
-#     plt.show()
-
-# for i in ['country', 'description', 'designation', 'province', 'region_1',      
-#        'region_2', 'taster_name', 'taster_twitter_handle', 'title', 'variety',
-#        'winery']:
-#     sns.scatterplot(data=df, x=i, y='price')
-#     plt.show()
-
-# print(df.select_dtypes(include= "object").columns)
-# s = df.select_dtypes(include="number").corr()
-# print(s)
-# plt.figure(figsize=(15,15))
-# sns.heatmap(s, annot=True)
-
-# for i in ["designation","region_1","region_2","taster_name","taster_twitter_handle","country"]:
-#     df[i].fillna(df[i].mode()[0], inplace=True)
+for i in ["designation","region_1","region_2","taster_name","taster_twitter_handle","country"]:
+    df[i].fillna(df[i].mode()[0], inplace=True)
 
 
 
@@ -112,6 +108,6 @@ print(nul)
   
 pd.merge(summary,nul,left_index=True,right_index=True)
 
-# pd.set_option("display.max_row", None)
+pd.set_option("display.max_row", None)
 
-# print(df)
+print(df)
